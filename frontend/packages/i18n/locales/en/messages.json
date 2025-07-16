@@ -1,0 +1,48 @@
+{
+  "extensionDescription": {
+    "description": "Extension description",
+    "message": "Leetcode Complexity Analyzer Chrome Extension"
+  },
+  "extensionName": {
+    "description": "Extension name",
+    "message": "Leetcode Complexity Analyzer Chrome Extension"
+  },
+  "toggleTheme": {
+    "message": "Toggle theme"
+  },
+  "testString": {
+    "message": "Ommale"
+  },
+  "injectButton": {
+    "message": "Click to inject Content Scripts"
+  },
+  "greeting": {
+    "description": "Greeting message",
+    "message": "Hello, My name is $NAME$",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "John Doe"
+      }
+    }
+  },
+  "hello": {
+    "description": "Hello World",
+    "message": "Ping!"
+  },
+  "displayErrorInfo": {
+    "message": "An error has occurred"
+  },
+  "displayErrorDescription": {
+    "message": "We apologize for the inconvenience. Something went wrong while processing your request."
+  },
+  "displayErrorDetailsInfo": {
+    "message": "Technical details:"
+  },
+  "displayErrorUnknownErrorInfo": {
+    "message": "An unexpected error occurred"
+  },
+  "displayErrorReset": {
+    "message": "Try Again"
+  }
+}

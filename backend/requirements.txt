@@ -1,0 +1,7 @@
+# Requirements for the project
+networkx
+openai
+fastapi
+uvicorn
+pydantic
+tree_sitter

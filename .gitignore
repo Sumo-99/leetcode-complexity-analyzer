@@ -1,0 +1,23 @@
+# Global .gitignore for the entire repository
+# macOS system files
+.DS_Store
+
+# VSCode settings
+.vscode/
+
+# Node.js logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python virtual environments (if created at root)
+venv/
+ENV/
+
+# General backup files
+*.swp
+*.swo
+*~
+
+# Ignore dist-zip output
+/dist-zip/
