@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from core.language_detection import detect_language
-from core.static_analysis.python_analyzer import PythonStaticAnalyzer
-from core.static_analysis.cpp_analyzer import CppStaticAnalyzer
-from core.static_analysis.java_analyzer import JavaStaticAnalyzer
+from core.static_analysis.python_analyzer import analyze as analyze_python
+from core.static_analysis.cpp_analyzer import analyze as analyze_cpp
+from core.static_analysis.java_analyzer import analyze as analyze_java
 from core.llm_analysis import LLMComplexityAnalyzer
 from core.result_schema import StaticComplexityResult, LLMComplexityResult
 from core.merger import merge_results
@@ -13,17 +13,22 @@ app = FastAPI()
 class CodeSubmission(BaseModel):
     code: str
 
-# Helper to select static analyzer
+
+# Helper to select static analyzer function
 STATIC_ANALYZERS = {
-    'Python': PythonStaticAnalyzer(),
-    'C++': CppStaticAnalyzer(),
-    'Java': JavaStaticAnalyzer(),
+    'Python': analyze_python,
+    'C++': analyze_cpp,
+    'Java': analyze_java,
 }
 
 def run_static_analysis(code, lang):
     analyzer = STATIC_ANALYZERS.get(lang)
     if analyzer:
-        return analyzer.analyze(code)
+        result = analyzer(code)
+        # If result is not StaticComplexityResult, convert to dict
+        if hasattr(result, 'dict'):
+            return result.dict()
+        return result
     return StaticComplexityResult(time='Unknown', space='Unknown', confidence=0.0)
 
 def query_llm(code, lang):

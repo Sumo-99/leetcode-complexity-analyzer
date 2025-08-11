@@ -3,34 +3,34 @@ from core.result_schema import LLMComplexityResult
 
 # Example using OpenAI API (requires openai package and API key)
 try:
-    import openai
+    from openai import OpenAI
+    api_key = os.getenv("OPENAI_API_KEY")
+    client = OpenAI(api_key=api_key)
 except ImportError:
-    openai = None
+    client = None
 
 class LLMComplexityAnalyzer:
     def __init__(self, api_key=None, model="gpt-3.5-turbo"):
-        if openai is None:
+        if client is None:
             raise ImportError("openai package is required for LLM analysis.")
         self.api_key = api_key or os.getenv("OPENAI_API_KEY")
         self.model = model
-        openai.api_key = self.api_key
 
     def analyze(self, code: str, language: str = None) -> LLMComplexityResult:
         prompt = self._build_prompt(code, language)
-        response = openai.ChatCompletion.create(
-            model=self.model,
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=256,
-            temperature=0.0
-        )
-        result = self._parse_response(response["choices"][0]["message"]["content"])
+        response = client.chat.completions.create(model=self.model,
+        messages=[{"role": "user", "content": prompt}],
+        max_tokens=256,
+        temperature=0.0)
+        result = self._parse_response(response.choices[0].message.content)
         return result
 
     def _build_prompt(self, code, language=None):
         lang_str = f" in {language}" if language else ""
         return (
             f"Analyze the following code{lang_str} and estimate its time and space complexity. "
-            "Respond in the format: Time: <complexity>, Space: <complexity>, Confidence: <0-1>.\n"
+            "Respond in the format: Time: <complexity>, Space: <complexity>, Confidence: <0-1>.\n. " \
+            "Also provide a simple explanation for your estimates.\n\n" \
             f"Code:\n{code}"
         )
 

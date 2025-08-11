@@ -4,4 +4,3 @@ openai
 fastapi
 uvicorn
 pydantic
-tree_sitter
