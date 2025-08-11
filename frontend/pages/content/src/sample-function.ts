@@ -1,3 +1,6 @@
+// import axios from 'axios';
+import { DEV_API_BASE_URL } from '../constants';
+
 export const sampleFunction = () => {
   console.log('content script - sampleFunction() called from another module');
 };
