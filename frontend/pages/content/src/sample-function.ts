@@ -1,5 +1,5 @@
 // import axios from 'axios';
-import { DEV_API_BASE_URL } from '../constants';
+import { BASE_API_URL } from '../constants';
 
 export const sampleFunction = () => {
   console.log('content script - sampleFunction() called from another module');
@@ -79,7 +79,25 @@ export async function scrapeFullCodeFromMonaco() {
   const fullCode = Array.from(seenLines).join('\n');
   console.log('[Extension] Scraped full code:\n', fullCode);
 
-  // TODO: Send fullCode to backend
+  // Send fullCode to backend
+  try {
+    const response = await fetch(`${BASE_API_URL}/analyze`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ code: fullCode }),
+    });
+    if (!response.ok) {
+      throw new Error(`Backend error: ${response.status}`);
+    }
+    const result = await response.json();
+    console.log('[Extension] Analysis result:', result);
+  } catch (err) {
+    console.error('[Extension] Failed to send code to backend:', err);
+    alert('Failed to analyze code. Please check your backend service and network.');
+  }
+
 }
 
 
