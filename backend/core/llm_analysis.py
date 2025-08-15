@@ -7,6 +7,7 @@ from core.config import settings
 try:
     from openai import OpenAI
     client = OpenAI(api_key=settings.OPENAI_API_KEY)
+    # print("Test OpenAI key: ", settings.OPENAI_API_KEY)
 except ImportError:
     client = None
 
