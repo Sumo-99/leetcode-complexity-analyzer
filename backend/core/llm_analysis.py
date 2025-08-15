@@ -1,19 +1,19 @@
+
 import os
 from core.result_schema import LLMComplexityResult
+from core.config import settings
 
 # Example using OpenAI API (requires openai package and API key)
 try:
     from openai import OpenAI
-    api_key = os.getenv("OPENAI_API_KEY")
-    client = OpenAI(api_key=api_key)
+    client = OpenAI(api_key=settings.OPENAI_API_KEY)
 except ImportError:
     client = None
 
 class LLMComplexityAnalyzer:
-    def __init__(self, api_key=None, model="gpt-3.5-turbo"):
+    def __init__(self, model="gpt-3.5-turbo"):
         if client is None:
             raise ImportError("openai package is required for LLM analysis.")
-        self.api_key = api_key or os.getenv("OPENAI_API_KEY")
         self.model = model
 
     def analyze(self, code: str, language: str = None) -> LLMComplexityResult:
