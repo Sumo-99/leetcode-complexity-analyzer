@@ -1,3 +1,9 @@
+// Listen for message from popup to trigger scraping and analysis
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type === 'SCRAPE_AND_ANALYZE') {
+    scrapeFullCodeFromMonaco();
+  }
+});
 // import axios from 'axios';
 import { BASE_API_URL } from '../constants';
 
@@ -91,8 +97,10 @@ export async function scrapeFullCodeFromMonaco() {
     if (!response.ok) {
       throw new Error(`Backend error: ${response.status}`);
     }
-    const result = await response.json();
-    console.log('[Extension] Analysis result:', result);
+  const result = await response.json();
+  console.log('[Extension] Analysis result:', result);
+  // Send result to popup
+  chrome.runtime.sendMessage({ type: 'ANALYSIS_RESULT', result }); // Disabled, now handled in popup
   } catch (err) {
     console.error('[Extension] Failed to send code to backend:', err);
     alert('Failed to analyze code. Please check your backend service and network.');
