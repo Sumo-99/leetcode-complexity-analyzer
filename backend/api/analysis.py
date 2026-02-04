@@ -38,8 +38,11 @@ def assess_confidence(static_result, llm_result):
 @router.post("/analyze")
 def analyze_code(request: CodeSubmission):
     lang = detect_language(request.code)
+    print("Detected language: ", lang)
     static_result = run_static_analysis(request.code, lang)
+    print("Static Result: ", static_result)
     llm_result = query_llm(request.code, lang)
+    print("LLM Result: ", llm_result)
     confidence = assess_confidence(static_result, llm_result)
     final = merge_results(static_result, llm_result, confidence)
     return final
